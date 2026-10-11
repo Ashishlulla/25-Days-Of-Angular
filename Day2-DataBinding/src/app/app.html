@@ -1,0 +1,29 @@
+<h1>Day 2: Data Binding</h1>
+
+<h2>Two-Way Data Binding</h2>
+
+<label>Enter your name:</label>
+
+<input type="text" [(ngModel)]="studentName">
+
+<p>Your name is: {{ studentName }}</p>
+<p>Course Enrolled: {{courseName}}</p>
+<p>Learning Day : {{learningDay}}</p>
+
+<hr>
+
+<h2>Property Binding</h2>
+
+<button [disabled]="isDisabled">
+  Submit
+</button>
+
+<hr>
+
+<h2>Event Binding</h2>
+
+<p>Count: {{ count }}</p>
+
+<button (click)="increaseCount()">+</button>
+
+<button (click)="decreaseCount()">-</button>
