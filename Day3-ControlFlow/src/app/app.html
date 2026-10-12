@@ -1,0 +1,17 @@
+<h3>Day 3- Control Flow</h3>
+
+@if(isLoggedIn){
+  <p>Welcome, Ashish</p>
+  
+  <h3>Student List</h3>
+
+  <ul>
+    @for(student of students; track student){
+      <li>{{student}}</li>
+    }@empty{
+      <p>No students found.</p>
+    }
+  </ul>
+} @else{
+  <p>Please Login to continue.</p>
+}
