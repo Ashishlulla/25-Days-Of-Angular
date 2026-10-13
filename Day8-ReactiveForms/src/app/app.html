@@ -1,0 +1,59 @@
+
+<h1>Student Registration Form</h1>
+
+<form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <label>Student Name:</label>
+    <input type="text" formControlName="name">
+
+    @if (studentForm.controls.name.touched &&
+         studentForm.controls.name.hasError('required')) {
+      <p style="color: red;">Name is required.</p>
+    }
+  </div>
+
+  <br>
+
+  <div>
+    <label>Email:</label>
+    <input type="email" formControlName="email">
+
+    @if (studentForm.controls.email.touched &&
+         studentForm.controls.email.hasError('required')) {
+      <p style="color: red;">Email is required.</p>
+    }
+
+    @if (studentForm.controls.email.touched &&
+         studentForm.controls.email.hasError('email')) {
+      <p style="color: red;">Please enter a valid email.</p>
+    }
+  </div>
+
+  <br>
+
+  <div>
+    <label>Course:</label>
+    <input type="text" formControlName="course">
+
+    @if (studentForm.controls.course.touched &&
+         studentForm.controls.course.hasError('required')) {
+      <p style="color: red;">Course is required.</p>
+    }
+  </div>
+
+  <br>
+
+  <button type="submit">Register</button>
+
+</form>
+
+@if (submittedStudent) {
+  <hr>
+
+  <h2>Registration Successful!</h2>
+
+  <p>Name: {{ submittedStudent.name }}</p>
+  <p>Email: {{ submittedStudent.email }}</p>
+  <p>Course: {{ submittedStudent.course }}</p>
+}
