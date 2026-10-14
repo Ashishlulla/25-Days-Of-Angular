@@ -1,0 +1,14 @@
+<h1>Day 9: HttpClient</h1>
+
+<p>Total users: {{ users.length }}</p>
+
+@if(isLoading){
+  <p>Loading Users</p>
+}
+
+@if(errorMessage != ''){
+  <p>{{errorMessage}}</p>
+}
+@for (user of users; track user.id) {
+  <p>{{ user.id }} - {{ user.name }} - {{ user.email }}</p>
+}
