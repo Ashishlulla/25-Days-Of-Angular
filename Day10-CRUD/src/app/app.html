@@ -1,0 +1,86 @@
+<h1>Angular CRUD Application</h1>
+
+
+<p>DEBUG — isLoading: {{ isLoading }}</p>
+<p>DEBUG — Users: {{ users.length }}</p>
+
+@if (isLoading) {
+  <p>Loading users...</p>
+} @else if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+} @else {
+  <h2>Total Users: {{ users.length }}</h2>
+
+  @for (user of users; track user.id) {
+    <div>
+      <h3>{{ user.name }}</h3>
+      <p>Username: {{ user.username }}</p>
+      <p>Email: {{ user.email }}</p>
+
+      <button type="button" (click)="editUser(user)">Edit</button>
+      <button (click)="deleteUser(user.id)">Delete</button>
+    </div>
+    <hr>
+  }
+}
+
+
+<h2>Add User</h2>
+
+<form [formGroup]="userForm" (ngSubmit)="isEditMode && selectedUser ? updateUser(selectedUser): addUser(userForm.getRawValue())">
+
+  <label for="name">Name:</label>
+  <input
+    id="name"
+    type="text"
+    formControlName="name"
+    placeholder="Enter name..."
+  />
+
+  @if (userForm.controls.name.touched && userForm.controls.name.invalid) {
+    <p>Name is required.</p>
+  }
+
+  <br /><br />
+
+  <label for="email">Email:</label>
+  <input
+    id="email"
+    type="email"
+    formControlName="email"
+    placeholder="Enter email..."
+  />
+
+  @if (userForm.controls.email.touched && userForm.controls.email.invalid) {
+    <p>Please enter a valid email address.</p>
+  }
+
+  <br /><br />
+
+  <label for="username">Username:</label>
+  <input
+    id="username"
+    type="text"
+    formControlName="username"
+    placeholder="Enter username..."
+  />
+
+  @if (userForm.controls.username.touched && userForm.controls.username.invalid) {
+    <p>Username is required.</p>
+  }
+
+  <br /><br />
+
+  <button type="submit" [disabled]="userForm.invalid">
+    {{isEditMode ? 'Update User': 'Add User'}}
+  </button>
+
+</form>
+<button  (click)="ngOnInit()">Load User</button>
+
+
+<h4>Updated Users</h4>
+ 
+@for(user of users;track user.id){
+  <p>{{user.id}}--{{user.name}}--{{user.username}}--{{user.email}}</p>
+}
