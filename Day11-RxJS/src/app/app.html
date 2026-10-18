@@ -1,0 +1,41 @@
+<h1>Day11- RxJS</h1>
+
+
+<button (click)="showMessage()">Load Message</button>
+
+<p>{{message}}</p>
+
+<button (click)="loadDelayedMessage()">Load Delayed Messages</button>
+
+<p>{{delayedMessage}}</p>
+
+
+<hr />
+
+<h2>Observable Counter</h2>
+
+<p>Count: {{ count }}</p>
+
+<button (click)="startCounter()">Start Counter</button>
+<button (click)="stopCounter()">Stop Counter</button>
+
+<button type="button" (click)="showMapExample()">Load Map values</button>
+<button type="button" (click)="showFilterExample()">Load Filter values</button>
+<button  type="button" (click)="combineExample()">Load combine example</button>
+<button type="button" (click)="showTapExample()">
+  Test Tap Operator
+</button>
+
+<button type="button" (click)="showErrorExample()">
+  Test Error Handling
+</button>
+
+<button type="button" (click)="showFallbackExample()">
+  Test Fallback Value
+</button>
+
+<button type="button" (click)="showSwitchMapExample()">test switch map</button>
+<button type="button" (click)="showSwitchMapCancellation()">test cancellation switch map</button>
+
+<button type="button" (click)="showDebounceExample()">test Debounce time</button>
+<button type="button" (click)="showDistinctUntillChangedExample()">test Distinct Untill Changed</button>
