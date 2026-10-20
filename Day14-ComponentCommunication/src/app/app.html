@@ -1,0 +1,8 @@
+<h1>Parent Component</h1>
+
+<input type="text" placeholder="enter employee name..." #employeenameinput>
+<button type="button" (click)="employeeName= employeenameinput.value"> Update Employee Name</button>
+<p>Sending employeeName: {{employeeName}}</p>
+
+<app-employee [name]="employeeName" (employeeSelected)="onEmplyeeSelected($event)"></app-employee>
+<p>Selected Employee: {{ selectedEmployee }}</p>
