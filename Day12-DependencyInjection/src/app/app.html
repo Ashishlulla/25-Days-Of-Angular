@@ -1,0 +1,19 @@
+<h1>Day 12 - Dependency Injection</h1>
+
+<h2>Employee List</h2>
+<p>Total Employee: {{getEmployeeCount()}}</p>
+<button type="button" (click)="getEmployees()">Load Employees</button>
+<br>
+
+<input type="text" 
+name='name' 
+[(ngModel)]="newEmployee"
+placeholder="enter employeeName...">
+<br>
+<button type="button" (click)="addEmployee(newEmployee)">Add Employee</button>
+
+<ul>
+  @for (employee of employees; track employee) {
+    <li>{{ employee }}</li>
+  }
+</ul>
