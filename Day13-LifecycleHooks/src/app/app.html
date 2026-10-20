@@ -1,0 +1,21 @@
+<h1>Day13- LifecycleHooks</h1>
+
+@if(showMessage){
+  <p>{{message}}</p>
+  <p>Intial Count: {{count}}</p>
+}
+
+<button type="button" (click)="hideMessage()">Hide Message</button>
+
+
+<hr>
+
+<h2>ngOnDestroy Demo</h2>
+
+<button type="button" (click)="toggleChild()">
+  Toggle Child Component
+</button>
+
+@if (showChild) {
+  <app-child></app-child>
+}
