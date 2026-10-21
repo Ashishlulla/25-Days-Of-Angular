@@ -1,0 +1,23 @@
+<h1>Original Title: {{title}}</h1>
+<h1>Title case: {{ title|titlecase }} </h1>
+
+<p>Original Message: {{message}}</p>
+<p>LowerCase Message: {{message | lowercase}}</p>
+
+<p>Original Developer Name: {{developerName}}</p>
+<p>Upperse Developer Name: {{developerName | uppercase }}</p>
+
+<hr>
+<h3>Date Pipes Demonstrations</h3>
+<p>Default Date : {{today |  date}}</p>
+<p>Short Date: {{ today | date:'shortDate'}}</p>
+<p>Full Date: {{ today | date: 'fullDate'}}</p>
+
+<hr>
+<p>Ammount Paid: {{ammount | currency: 'INR'}}</p>
+<p>Completion percentage: {{ completion| percent}}</p>
+
+<hr>
+<h3>Custom Pipe Example:</h3>
+<p>Original Text:</p>
+<p> Custom Pipe (Reverse Text): {{stringValue | reverseText}}</p>
