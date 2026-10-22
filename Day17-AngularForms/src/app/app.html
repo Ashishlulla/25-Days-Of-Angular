@@ -1,0 +1,54 @@
+<h1>Day17- Angular Forms</h1>
+
+
+@if( successMessage != ''){
+  <p class="success">{{successMessage}}</p>
+}
+<h3>Employee Registration form</h3>
+
+<form #employeeForm="ngForm" (ngSubmit)="onSubmit()">
+  <label>Employee Name: </label>
+  <input type="text" 
+  name="employeeName" 
+  placeholder="enter employee name" 
+  [(ngModel)]="employeeName"
+  #nameFeild="ngModel" 
+  required>
+  @if(nameFeild.invalid && nameFeild.touched){
+    <p class="error">Employee Name is required.</p>
+  }
+
+  <br><br>
+  <label>Employee Email: </label>
+  <input type="email" 
+  name="employeeEmail" 
+  placeholder="enter employee email" 
+  [(ngModel)]="employeeEmail"
+  #emailFeild="ngModel"  
+  required>
+
+  @if(emailFeild.invalid && emailFeild.touched){
+    <p class="error">Employee Email is required.</p>
+  }
+
+   <br><br>
+  <label>Department: </label>
+  <input type="text" 
+  name="department" 
+  placeholder="enter employee department" 
+  [(ngModel)]="department"
+  #departmentFeild = "ngModel"
+  required>
+
+   @if(departmentFeild.invalid && departmentFeild.touched){
+    <p class="error">Employee Department is required.</p>
+  }
+  <br><br>
+  <button type="submit" [disabled]="employeeForm.invalid">Register Employee</button>
+</form>
+
+<h2>Live Preview</h2>
+
+<p><strong>Employee Name: </strong>{{employeeName}}</p>
+<p><strong>Employee Email: </strong>{{employeeEmail}}</p>
+<p><strong>Department: </strong>{{department}}</p>
