@@ -1,0 +1,55 @@
+<h1> Day16- Angular Directives</h1>
+
+@if(isLoggedIn){
+  <p>Welcome Back Ashish !</p>
+  <p>You are logged in.</p>
+} @else{
+  <p>Please log in.</p>
+}
+
+<button type="button" (click)="isLoggedIn = !isLoggedIn">{{isLoggedIn ? 'Logout':'Login'}}</button>
+
+
+<hr>
+<h1>Users List</h1>
+<ul>
+  @for(user of users; track user){
+  <li>{{user}}</li>
+}
+</ul>
+<p>Total Users: {{users.length}}</p>
+
+
+<hr>
+<h1>Add Employee</h1>
+
+<input type="text" placeholder="enter user's name" #userInput>
+
+<button type="button" (click)="newUser= userInput.value ;addUser(); userInput.value=''">Add User</button>
+
+<hr>
+
+<h2>ngClass Example</h2>
+
+<p [ngClass]="isHighlighted ? 'highlight' : ''">
+  This text can be highlighted!
+</p>
+
+<button type="button" (click)="isHighlighted = !isHighlighted">
+  Toggle Highlight
+</button>
+
+<hr>
+
+<h2>ngStyle Example</h2>
+
+<p [ngStyle]="{
+  'color': isHighlighted ? 'green' : 'black',
+  'font-size': isHighlighted ? '24px' : '16px'
+}">
+  This text changes its style dynamically!
+</p>
+
+<button type="button" (click)="isHighlighted = !isHighlighted">
+  Change Text Style
+</button>
