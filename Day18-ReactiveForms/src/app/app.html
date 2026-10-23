@@ -1,0 +1,50 @@
+<h1>Day18- Reactive Form</h1>
+
+<h2>Employee Registration Form</h2>
+
+@if( successMessage !== ''){
+  <p class="success"> Employee Registered successfully</p>
+}
+<form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+  <label>Employee Name:</label>
+  <input type="text"
+  formControlName="employeeName"  
+  placeholder="enter name...">
+
+  @if(employeeForm.controls.employeeName.touched && employeeForm.controls.employeeName.hasError('required')){
+    <p class="error"> Employee Name is required</p>
+  }
+  
+  <br><br>
+  <label>Employee Email:</label>
+  <input type="email"
+  formControlName="employeeEmail"
+  placeholder="enter email...">
+
+  @if(employeeForm.controls.employeeEmail.touched && employeeForm.controls.employeeEmail.hasError('required')){
+    <p class="error"> Employee Email is required</p>
+  }
+
+  @if(employeeForm.controls.employeeEmail.touched && employeeForm.controls.employeeEmail.hasError('email')){
+    <p class="error">invalid email format</p>
+  }
+  
+  <br><br>
+  <label>Department: </label>
+  <input type="text"
+  formControlName="department"
+  placeholder="enter department...">
+
+  @if(employeeForm.controls.department.touched && employeeForm.controls.department.hasError('required')){
+    <p class="error"> Employee Department is required</p>
+  }
+
+  <br><br>
+  <button type="submit" [disabled]="employeeForm.invalid">Register Employee</button>
+  <button type="button" (click)="resetForm()">Reset</button>
+</form>
+
+<h3>Live Preview</h3>
+<p><strong>Employee Name: </strong>{{employeeForm.controls.employeeName.value}}</p>
+<p><strong>Employee Email: </strong>{{employeeForm.controls.employeeEmail.value}}</p>
+<p><strong>Employee Department: </strong>{{employeeForm.controls.department.value}}</p>
