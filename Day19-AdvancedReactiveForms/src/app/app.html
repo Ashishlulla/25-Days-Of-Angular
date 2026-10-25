@@ -1,0 +1,118 @@
+<h1>Day 19 - Advanced Reactive Forms</h1>
+
+<h2>Employee Registration Form</h2>
+
+@if (successMessage !== '') {
+  <p class="success">{{ successMessage }}</p>
+}
+
+<form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+
+  <!-- Employee Name -->
+  <label for="employeeName">Employee Name:</label>
+  <input
+    id="employeeName"
+    type="text"
+    formControlName="employeeName"
+    placeholder="Enter employee name"
+  />
+
+  @if (employeeForm.controls.employeeName.touched &&
+       employeeForm.controls.employeeName.hasError('required')) {
+    <p class="error">Employee name is required.</p>
+  }
+
+  @if (employeeForm.controls.employeeName.touched &&
+       employeeForm.controls.employeeName.hasError('minlength')) {
+    <p class="error">Name must contain at least 3 characters.</p>
+  }
+
+  <br><br>
+
+  <!-- Employee Email -->
+  <label for="employeeEmail">Employee Email:</label>
+  <input
+    id="employeeEmail"
+    type="email"
+    formControlName="employeeEmail"
+    placeholder="Enter employee email"
+  />
+
+  @if (employeeForm.controls.employeeEmail.touched &&
+       employeeForm.controls.employeeEmail.hasError('required')) {
+    <p class="error">Employee email is required.</p>
+  }
+
+  @if (employeeForm.controls.employeeEmail.touched &&
+       employeeForm.controls.employeeEmail.hasError('email')) {
+    <p class="error">Enter a valid email address.</p>
+  }
+
+  <br><br>
+
+  <!-- Department -->
+  <label for="department">Department:</label>
+  <input
+    id="department"
+    type="text"
+    formControlName="department"
+    placeholder="Enter department"
+  />
+
+  @if (employeeForm.controls.department.touched &&
+       employeeForm.controls.department.hasError('required')) {
+    <p class="error">Department is required.</p>
+  }
+
+  <hr>
+
+  <!-- Employee Skills: FormArray -->
+  <h3>Employee Skills</h3>
+
+  <div formArrayName="skills">
+
+    @for (skill of skills.controls; track $index; let i = $index) {
+      <div class="skill-row">
+
+        <label [for]="'skill-' + i">Skill {{ i + 1 }}:</label>
+
+        <input
+          [id]="'skill-' + i"
+          type="text"
+          [formControlName]="i"
+          placeholder="Enter skill (e.g. C#, Angular)"
+        />
+
+        <button
+          type="button"
+          (click)="removeSkill(i)"
+        >
+          Remove
+        </button>
+
+        @if (skill.touched && skill.hasError('required')) {
+          <p class="error">Skill is required.</p>
+        }
+
+      </div>
+    }
+
+  </div>
+
+  <button
+    type="button"
+    (click)="addSkill()"
+  >
+    Add Skill
+  </button>
+
+  <br><br>
+
+  <!-- Form Actions -->
+  <button type="submit">Register Employee</button>
+
+  <button type="button" (click)="resetForm()">
+    Reset
+  </button>
+
+</form>
