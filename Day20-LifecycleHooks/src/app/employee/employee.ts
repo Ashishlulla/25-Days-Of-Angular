@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 
 @Component({
   imports: [],
@@ -6,7 +6,24 @@ import { Component, Input } from '@angular/core';
   styleUrl: './employee.css',
   templateUrl: './employee.html',
 })
-export class Employee {
+export class Employee implements OnChanges, OnDestroy {
    
   @Input() employeeName: string = '';
+
+  ngOnChanges(changes: SimpleChanges): void{
+
+    const nameChange = changes['employeeName'];
+
+    if(nameChange){
+      console.log("Previous:", nameChange.previousValue);
+      console.log("Current: ", nameChange.currentValue);
+      console.log("First Change: ", nameChange.firstChange);
+    }
+
+  }
+
+  ngOnDestroy(): void {
+    console.log('Employee component destroyed!');
+  }
 }
+

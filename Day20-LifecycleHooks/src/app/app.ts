@@ -11,6 +11,7 @@ import { Employee } from './employee/employee';
 export class App implements OnInit {
 
   employeeName: string = 'Ashish';
+  showEmployee: boolean = true;
 
   ngOnInit(): void {
     console.log("App Component Initialize !");
@@ -21,4 +22,8 @@ export class App implements OnInit {
     this.employeeName = 'Rahul';
     console.log("Name changed successfully");
   }
+
+  toggleEmployee(): void {
+  this.showEmployee = !this.showEmployee;
+}
 }

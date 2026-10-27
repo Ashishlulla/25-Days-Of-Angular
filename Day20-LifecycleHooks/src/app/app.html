@@ -2,4 +2,10 @@
 <p>employee name: {{employeeName}}</p>
 <button type="button" (click)="changeName()">Change Name</button>
 
-<app-employee [employeeName]="employeeName"></app-employee>
+@if (showEmployee) {
+  <app-employee [employeeName]="employeeName"></app-employee>
+}
+
+<button type="button" (click)="toggleEmployee()">
+  Toggle Employee Component
+</button>
