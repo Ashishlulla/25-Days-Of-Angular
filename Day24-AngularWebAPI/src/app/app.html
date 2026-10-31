@@ -1,0 +1,71 @@
+<h1>Day24 - Angular WebAPI</h1>
+
+
+<h2>{{isEditing ? "Update Employee": "Add Employee"}}</h2>
+
+@if(successMessage !==''){
+<p class="">{{successMessage}}</p>
+}
+@if(errorMessage !==''){
+  <p class="error">{{errorMessage}}</p>
+}
+
+<form #employeeForm="ngForm" (ngSubmit)="isEditing ? updateEmployee(): addEmployee()">
+  <label>Employee Name</label>
+  <input type="text" 
+  name="name" 
+  [(ngModel)]="newEmployee.name" 
+  placeholder="Enter employee name" 
+  required 
+  #namectrl="ngModel">
+  @if(namectrl.touched && namectrl.invalid)
+  {
+    <p  class="error">Employee name is required.</p>
+  }
+  <br><br>
+  <label>Department</label>
+  <input type="text" 
+  name="dept" 
+  [(ngModel)]="newEmployee.dept" 
+  placeholder="Enter employee department" 
+  required 
+  #deptctrl="ngModel">
+
+  @if(deptctrl.touched && deptctrl.invalid)
+  {
+    <p class="error">Employee Department is required.</p>
+  }
+  <br><br>
+
+  <button type="submit" [disabled]="employeeForm.invalid">{{isEditing? "Update Employee": "Add Employee"}}</button>
+</form>
+
+<h2>Employee List</h2>
+<table border="2" cellpadding="10" cellspacing="0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Department</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+        @for(employee of employees; track employee.id)
+        {
+          <tr>
+            <td>{{employee.id}}</td>
+            <td>{{employee.name}}</td>
+            <td>{{employee.dept}}</td>
+            <td>
+            <button type="button" (click)="onEditEmployee(employee)">Edit</button>
+            <button type="button" (click)="deleteEmployee(employee.id)">Delete</button>
+          </td>
+            </tr>
+        }
+      
+  </tbody>
+  
+
+</table>
