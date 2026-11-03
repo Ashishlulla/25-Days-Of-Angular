@@ -36,4 +36,12 @@ export class Dashboard {
         return matchesSearch && matchesStatus;
       });
     }
+
+    deleteEmployee(id: number) {
+
+      if(!confirm('Are you sure you want to delete this employee?')) {
+        return
+      }
+      this.employeeService.deleteEmployee(id);
+    }
 }

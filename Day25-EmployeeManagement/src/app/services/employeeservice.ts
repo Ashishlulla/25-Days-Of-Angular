@@ -17,4 +17,8 @@ export class Employeeservice {
       return [...currentemp, {...employee, id: maxId+1}];
     });
   }
+
+  deleteEmployee(id: number){
+    this.employees.update(currentemp=> currentemp.filter(e=>e.id !==id));
+  }
 }
