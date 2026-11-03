@@ -6,4 +6,5 @@ export const routes: Routes = [
     { path: 'employees/add', component: EmployeeForm },
     {path:'dashboard', component: Dashboard},
     {path:'', redirectTo:'/dashboard', pathMatch:'full'},
+    {path:'employees/edit/:id', component: EmployeeForm}
 ];

@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Employeeservice } from '../../services/employeeservice';
 import { Employee } from '../../models/employee';
 import {Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+
+
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink],
@@ -12,12 +15,12 @@ import {Router} from '@angular/router';
   templateUrl: './employee-form.html',
 })
 
-export class EmployeeForm {
+export class EmployeeForm implements OnInit {
   
   private fb = new FormBuilder();
 
 
-  constructor(private employeeService: Employeeservice, private router: Router){}
+  constructor(private employeeService: Employeeservice, private router: Router, private activatedRoute: ActivatedRoute){}
 
   employeeForm = this.fb.group({
     name:['',[Validators.required, Validators.minLength(3)]],
@@ -25,6 +28,7 @@ export class EmployeeForm {
     department:['', [Validators.required]],
   });
    
+  isEditMode: boolean = false;
   
 
   onSubmit(){
@@ -41,11 +45,40 @@ export class EmployeeForm {
       department: this.employeeForm.value.department!,
     };
 
+    if (this.isEditMode) {
+  const employeeId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+  newEmployee.id = employeeId;
+
+  // Preserve the employee's existing status
+  newEmployee.isActive =
+    this.employeeService.getEmployeeById(employeeId)?.isActive ?? true;
+        this.employeeService.updateEmployee(newEmployee);
+  } else {
     this.employeeService.addEmployee(newEmployee);
+  };
 
     console.log("Submitted Data:", this.employeeForm.value);
 
     this.employeeForm.reset();
     this.router.navigate(['/dashboard']);
+  }
+
+  ngOnInit() {
+    const employeeId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+
+    if(employeeId){
+      this.isEditMode = true;
+    }
+
+    const employee = this.employeeService.getEmployeeById(employeeId);
+    if(employee !== undefined){
+      this.employeeForm.patchValue({
+        name: employee.name,
+        email: employee.email,
+        department: employee.department
+      })
+    } else{
+      this.router.navigate(['/dashboard']);
+    }
   }
 }

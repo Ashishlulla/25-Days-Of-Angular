@@ -19,6 +19,16 @@ export class Employeeservice {
   }
 
   deleteEmployee(id: number){
-    this.employees.update(currentemp=> currentemp.filter(e=>e.id !==id));
+    this.employees.update(currentemp=> currentemp.filter(e=>e.id !== id));
+  }
+
+  getEmployeeById(id: number): Employee | undefined{
+    return this.employees().find(e=>e.id === id);
+  }
+
+  updateEmployee(updatedEmployee: Employee){
+    this.employees.update(currentemp=>{
+      return currentemp.map(e=> e.id === updatedEmployee.id ? updatedEmployee : e);
+    }); 
   }
 }
