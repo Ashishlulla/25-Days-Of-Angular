@@ -1,4 +1,4 @@
-import { Component, } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {employeeData} from '../../data/employee-data';
 import {RouterLink} from '@angular/router';
@@ -11,9 +11,13 @@ import {Employeeservice} from '../../services/employeeservice';
   templateUrl: './dashboard.html',
 })
 
-export class Dashboard {
+export class Dashboard implements OnInit {
 
   constructor(private employeeService: Employeeservice){}
+
+  ngOnInit(){
+    this.employeeService.LoadEmployees();
+  }
 
   totalEmployees = 25;
     totalDepartments = 5;

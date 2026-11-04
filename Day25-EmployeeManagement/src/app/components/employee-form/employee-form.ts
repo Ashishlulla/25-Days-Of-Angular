@@ -27,6 +27,8 @@ export class EmployeeForm implements OnInit {
     email:['',[Validators.required, Validators.email]],
     department:['', [Validators.required]],
   });
+
+  existingEmployee?: Employee;
    
   isEditMode: boolean = false;
   
@@ -51,10 +53,19 @@ export class EmployeeForm implements OnInit {
 
   // Preserve the employee's existing status
   newEmployee.isActive =
-    this.employeeService.getEmployeeById(employeeId)?.isActive ?? true;
+    this.existingEmployee?.isActive ?? true;
         this.employeeService.updateEmployee(newEmployee);
   } else {
-    this.employeeService.addEmployee(newEmployee);
+    this.employeeService.addEmployee(newEmployee).subscribe({
+      next:(response)=>{
+        console.log("Employee Added Successfully",response );
+        this.router.navigate(['/dashboard']);
+        this.employeeService.LoadEmployees();
+      }, 
+      error: (error)=>{
+        console.error('Status:', error.status);
+        console.error('Message:', error.message);
+        console.error('Response:', error.error);}});
   };
 
     console.log("Submitted Data:", this.employeeForm.value);
@@ -66,19 +77,25 @@ export class EmployeeForm implements OnInit {
   ngOnInit() {
     const employeeId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
 
-    if(employeeId){
-      this.isEditMode = true;
-    }
+    if(!employeeId){
+      this.isEditMode = false;
+      return;
+    } 
+    this.isEditMode = true;
 
-    const employee = this.employeeService.getEmployeeById(employeeId);
-    if(employee !== undefined){
-      this.employeeForm.patchValue({
-        name: employee.name,
-        email: employee.email,
-        department: employee.department
-      })
-    } else{
-      this.router.navigate(['/dashboard']);
-    }
+   this.employeeService.getEmployeeById(employeeId).subscribe({
+    next:(employee)=>{
+      this.existingEmployee = employee;
+    this.employeeForm.patchValue({
+      name: employee.name,
+      department: employee.department,
+      email: employee.email,
+    })
+   },
+   error: (error)=>{
+    console.error("Error fetching employee", error);
+   }});
+    
+    
   }
 }
