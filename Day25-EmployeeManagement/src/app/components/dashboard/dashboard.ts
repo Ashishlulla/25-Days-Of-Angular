@@ -46,6 +46,11 @@ export class Dashboard implements OnInit {
       if(!confirm('Are you sure you want to delete this employee?')) {
         return
       }
-      this.employeeService.deleteEmployee(id);
+      this.employeeService.deleteEmployee(id).subscribe({
+        next: ()=>{
+          console.log("Successfully deleted Employee");
+          this.employeeService.LoadEmployees();
+        }, 
+        error: (error)=>{console.error("Error deleteing employee!")}});
     }
 }

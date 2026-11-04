@@ -19,18 +19,16 @@ export class Employeeservice {
     return this.http.post<Employee>(this.apiUrl, employee);
   }
 
-  deleteEmployee(id: number){
-    this.employees.update(currentemp=> currentemp.filter(e=>e.id !== id));
+  deleteEmployee(id: number): Observable<null>{
+    return this.http.delete<null>(`${this.apiUrl}/${id}`);
   }
 
   getEmployeeById(id: number): Observable<Employee>{
     return  this.http.get<Employee>(`${this.apiUrl}/${id}`);
   }
 
-  updateEmployee(updatedEmployee: Employee){
-    this.employees.update(currentemp=>{
-      return currentemp.map(e=> e.id === updatedEmployee.id ? updatedEmployee : e);
-    }); 
+  updateEmployee(updatedEmployee: Employee): Observable<Employee>{
+    return this.http.put<Employee>(`${this.apiUrl}/${updatedEmployee.id}`, updatedEmployee)
   }
 
   getEmployees(): Observable<Employee[]>{

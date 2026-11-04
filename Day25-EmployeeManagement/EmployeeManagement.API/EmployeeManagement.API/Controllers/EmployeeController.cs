@@ -8,7 +8,7 @@ namespace EmployeeManagement.API.Controllers
   [ApiController]
   public class EmployeeController : ControllerBase
   {
-    private static readonly List<Employee> EmployeeList =
+    private  static readonly List<Employee> EmployeeList =
       [
         new Employee { Id = 1, Name = "Ashish Lulla", Email = "ashish@gmail.com", Department = "IT", IsActive = true },
         new Employee { Id = 2, Name = "Laksh Lulla", Email = "laksh@gmail.com", Department = "Finance", IsActive = true },
@@ -50,6 +50,40 @@ namespace EmployeeManagement.API.Controllers
       EmployeeList.Add(employee);
 
       return Ok(employee);
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult UpdateEmployee(int id, Employee updatedEmployee)
+    {
+      var employee = EmployeeList.FirstOrDefault(e => e.Id == id);
+
+      if (employee == null)
+      {
+        return NotFound();
+      }
+
+      employee.Name = updatedEmployee.Name;
+      employee.Email = updatedEmployee.Email;
+      employee.Department = updatedEmployee.Department;
+      employee.IsActive = updatedEmployee.IsActive;
+
+      return Ok(employee);
+
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteEmployee(int id) {
+
+      var employee = EmployeeList.FirstOrDefault(e => e.Id == id);
+
+      if (employee == null)
+      {
+        return NotFound();
+      }
+
+      EmployeeList.Remove(employee);
+
+      return Ok("Employee Deleted Successfully!");
     }
 
   }

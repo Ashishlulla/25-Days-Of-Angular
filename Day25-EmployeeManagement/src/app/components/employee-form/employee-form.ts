@@ -54,7 +54,13 @@ export class EmployeeForm implements OnInit {
   // Preserve the employee's existing status
   newEmployee.isActive =
     this.existingEmployee?.isActive ?? true;
-        this.employeeService.updateEmployee(newEmployee);
+        this.employeeService.updateEmployee(newEmployee).subscribe({
+          next: (response)=>{
+            console.log("Employee Updated Successfully !", response);
+            this.router.navigate(['/dashboard']);
+            this.employeeService.LoadEmployees();
+          }, 
+          error: (error)=> {console.error()}});
   } else {
     this.employeeService.addEmployee(newEmployee).subscribe({
       next:(response)=>{
@@ -95,7 +101,5 @@ export class EmployeeForm implements OnInit {
    error: (error)=>{
     console.error("Error fetching employee", error);
    }});
-    
-    
   }
 }
