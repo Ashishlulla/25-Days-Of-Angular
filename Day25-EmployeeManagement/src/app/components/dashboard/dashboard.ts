@@ -50,7 +50,9 @@ export class Dashboard implements OnInit {
         next: ()=>{
           console.log("Successfully deleted Employee");
           this.employeeService.LoadEmployees();
+      
+          
         }, 
-        error: (error)=>{console.error("Error deleteing employee!")}});
+        error: (error)=>{console.error("Error deleteing employee!", error)}});
     }
 }

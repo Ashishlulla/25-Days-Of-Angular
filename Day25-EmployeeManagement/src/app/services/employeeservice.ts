@@ -19,9 +19,11 @@ export class Employeeservice {
     return this.http.post<Employee>(this.apiUrl, employee);
   }
 
-  deleteEmployee(id: number): Observable<null>{
-    return this.http.delete<null>(`${this.apiUrl}/${id}`);
-  }
+  deleteEmployee(id: number) {
+  return this.http.delete(`${this.apiUrl}/${id}`, {
+    responseType: 'text'
+  });
+}
 
   getEmployeeById(id: number): Observable<Employee>{
     return  this.http.get<Employee>(`${this.apiUrl}/${id}`);

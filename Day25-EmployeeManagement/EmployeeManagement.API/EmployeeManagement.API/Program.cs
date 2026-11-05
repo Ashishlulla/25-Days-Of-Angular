@@ -1,3 +1,6 @@
+using EmployeeManagement.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +20,12 @@ builder.Services.AddCors(options => {
 //Add Swagger 
 builder.Services.AddSwaggerGen();
 
+
+//AddDbContext
+builder.Services.AddDbContext<EmployeeDbContext>(options =>
+{
+  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 var app = builder.Build();
 

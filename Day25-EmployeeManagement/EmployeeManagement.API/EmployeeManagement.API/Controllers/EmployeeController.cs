@@ -1,5 +1,4 @@
-using EmployeeManagement.API.Models;
-
+using EmployeeManagement.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.API.Controllers
@@ -28,7 +27,6 @@ namespace EmployeeManagement.API.Controllers
     public IActionResult GetEmployees() {
       return Ok(EmployeeList);
     }
-
     [HttpGet("{id}")]
     public IActionResult GetEmployeeById(int id) {
       var employee = EmployeeList.FirstOrDefault(e => e.Id == id);
