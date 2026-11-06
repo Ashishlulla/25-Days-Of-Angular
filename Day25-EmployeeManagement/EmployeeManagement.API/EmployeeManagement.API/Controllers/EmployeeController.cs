@@ -1,4 +1,6 @@
-using EmployeeManagement.Domain.Entities;
+using EmployeeManagement.Application.DTOs;
+using EmployeeManagement.Application.Interfaces.ServicesInterfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.API.Controllers
@@ -7,82 +9,92 @@ namespace EmployeeManagement.API.Controllers
   [ApiController]
   public class EmployeeController : ControllerBase
   {
-    private  static readonly List<Employee> EmployeeList =
-      [
-        new Employee { Id = 1, Name = "Ashish Lulla", Email = "ashish@gmail.com", Department = "IT", IsActive = true },
-        new Employee { Id = 2, Name = "Laksh Lulla", Email = "laksh@gmail.com", Department = "Finance", IsActive = true },
-        new Employee { Id = 3, Name = "Priya Gurwani", Email = "priya@gmail.com", Department = "HR", IsActive = true },
-        new Employee { Id = 4, Name = "Amit Deshmukh", Email = "amit@gmail.com", Department = "IT", IsActive = false
-        },
-        new Employee { Id = 5, Name = "Somesh Patil", Email = "somesh@gmail.com", Department = "Marketing", IsActive = true },
-        new Employee { Id = 6, Name = "Bhavesh Lulla", Email = "bhavesh@gmail.com", Department = "Sales", IsActive = true },
-        new Employee { Id = 7, Name = "Nidhi Lulla", Email = "nidhi@gmail.com", Department = "HR", IsActive = true },
-        new Employee { Id = 8, Name = "Bhavesh Popli", Email = "bhavesh@gmail.com", Department = "Engineering", IsActive = false },
-        new Employee { Id = 9, Name = "Pranish Lulla", Email = "pranish@gmail.com", Department = "Finance", IsActive = true },
-        new Employee { Id = 10, Name = "Ravneet Kaur", Email = "ravneet@gmail.com", Department = "IT", IsActive = false }
-      ];
+    //Private Feilds
+    private readonly IEmployeeService _employeeService;
+   
+
+    public EmployeeController(IEmployeeService employeeService)
+    {
+      _employeeService = employeeService;
+    }
 
 
     [HttpGet]
-    public IActionResult GetEmployees() {
-      return Ok(EmployeeList);
-    }
-    [HttpGet("{id}")]
-    public IActionResult GetEmployeeById(int id) {
-      var employee = EmployeeList.FirstOrDefault(e => e.Id == id);
-      if (employee == null)
-      {
-        return NotFound();
-      }
+    public async Task<IActionResult> GetEmployees() {
 
-      return Ok(employee);
+      var employees = await _employeeService.GetEmployeesAsync(); 
+      return Ok(employees);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetEmployeeById(int id) {
+
+      try
+      {
+        var employee = await _employeeService.GetEmployeeByIdAsync(id);
+        return Ok(employee);
+      }
+      catch (KeyNotFoundException ex)
+      {
+        return NotFound(new { message = ex.Message });
+      }
+      
     }
 
     [HttpPost]
-    public IActionResult AddEmployee(Employee employee)
+    public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeDto createEmployeeDto)
     {
-      int maxId = EmployeeList.Max(e => e.Id);
+      try
+      {
+        var result = await _employeeService.AddEmployeeAsync(createEmployeeDto);
 
-      employee.Id = maxId + 1;
-
-      EmployeeList.Add(employee);
-
-      return Ok(employee);
+        return CreatedAtAction(nameof(GetEmployeeById), new { id= result.Id}, result);
+      }
+      catch (ValidationException ex)
+      {
+        return BadRequest(new
+        {
+          errors = ex.Errors.Select(e => e.ErrorMessage)
+        });
+      }
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateEmployee(int id, Employee updatedEmployee)
+    public async Task<IActionResult> UpdateEmployee(int id, [FromBody]UpdateEmployeeDto updateEmployeeDto)
     {
-      var employee = EmployeeList.FirstOrDefault(e => e.Id == id);
-
-      if (employee == null)
+      try
       {
-        return NotFound();
+        var result = await _employeeService.UpdateEmployeeAsync(id, updateEmployeeDto);
+
+        return Ok(result);
       }
-
-      employee.Name = updatedEmployee.Name;
-      employee.Email = updatedEmployee.Email;
-      employee.Department = updatedEmployee.Department;
-      employee.IsActive = updatedEmployee.IsActive;
-
-      return Ok(employee);
+      catch (KeyNotFoundException ex)
+      {
+        return NotFound(new { message = ex.Message});
+      }
+      catch (ValidationException ex)
+      {
+        return BadRequest(new
+        {
+          errors = ex.Errors.Select(e => e.ErrorMessage)
+        });
+      }
 
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteEmployee(int id) {
-
-      var employee = EmployeeList.FirstOrDefault(e => e.Id == id);
-
-      if (employee == null)
+    public async Task<IActionResult> DeleteEmployee(int id)
+    {
+      try
       {
-        return NotFound();
+        await _employeeService.DeleteEmployeeAsync(id);
+
+        return NoContent();
       }
-
-      EmployeeList.Remove(employee);
-
-      return Ok("Employee Deleted Successfully!");
+      catch (KeyNotFoundException ex)
+      {
+        return NotFound(new { message = ex.Message });
+      }
     }
-
   }
 }
