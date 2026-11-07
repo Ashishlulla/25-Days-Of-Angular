@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { isActive, RouterLink } from '@angular/router';
 import { Employeeservice } from '../../services/employeeservice';
 import { Employee } from '../../models/employee';
 import {Router} from '@angular/router';
@@ -26,6 +26,7 @@ export class EmployeeForm implements OnInit {
     name:['',[Validators.required, Validators.minLength(3)]],
     email:['',[Validators.required, Validators.email]],
     department:['', [Validators.required]],
+    isActive:[true]
   });
 
   existingEmployee?: Employee;
@@ -43,7 +44,7 @@ export class EmployeeForm implements OnInit {
       id: 0, 
       name: this.employeeForm.value.name!,
       email: this.employeeForm.value.email!,
-      isActive: true,
+      isActive: this.employeeForm.value.isActive!,
       department: this.employeeForm.value.department!,
     };
 
@@ -52,8 +53,7 @@ export class EmployeeForm implements OnInit {
   newEmployee.id = employeeId;
 
   // Preserve the employee's existing status
-  newEmployee.isActive =
-    this.existingEmployee?.isActive ?? true;
+ 
         this.employeeService.updateEmployee(newEmployee).subscribe({
           next: (response)=>{
             console.log("Employee Updated Successfully !", response);
@@ -96,6 +96,7 @@ export class EmployeeForm implements OnInit {
       name: employee.name,
       department: employee.department,
       email: employee.email,
+      isActive: employee.isActive
     })
    },
    error: (error)=>{

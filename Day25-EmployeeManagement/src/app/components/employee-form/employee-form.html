@@ -37,6 +37,29 @@
         <small class="error">Please select a department.</small>
       }
     </div>
+    <div class="form-group">
+  <label>Employee Status</label>
+
+  <div class="radio-group">
+    <label>
+      <input
+        type="radio"
+        formControlName="isActive"
+        [value]="true"
+      />
+      Active
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        formControlName="isActive"
+        [value]="false"
+      />
+      Inactive
+    </label>
+  </div>
+</div>
 
     <button type="submit"> {{ isEditMode ? 'Update Employee' : 'Add Employee' }}</button>
     <button type="button" routerLink="/dashboard" class="cancel-button">
